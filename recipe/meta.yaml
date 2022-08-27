@@ -20,8 +20,6 @@ source:
 
 build:
   number: 0
-  # Windows should work, but it currently hangs during the test phase. I'm disabling it until I can debug that issue.
-  skip: True  # [win]
 
 requirements:
   host:
