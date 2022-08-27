@@ -1,0 +1,56 @@
+From 2e87ee9b4250e5db5d988200668d64563d2ebec4 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Tue, 30 Aug 2022 17:41:39 -0500
+Subject: [PATCH 1/1] debug dart sass
+
+---
+ src/core/dart-sass.ts | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/src/core/dart-sass.ts b/src/core/dart-sass.ts
+index 539d5d4..f8d5295 100644
+--- a/src/core/dart-sass.ts
++++ b/src/core/dart-sass.ts
+@@ -61,30 +61,37 @@ async function dartCommand(args: string[]) {
+           `Specified QUARTO_DART_SASS does not exist, using built in dart sass.`,
+         );
+       } else {
++        console.log("Using QUARTO_DART_SASS: " + dartOverrideCmd);
+         return dartOverrideCmd;
+       }
+     }
+ 
+     const command = Deno.build.os === "windows" ? "sass.bat" : "sass";
++    console.log("Using built in dart sass: " + toolsPath(join("dart-sass", command)));
+     return toolsPath(join("dart-sass", command));
+   };
+   const sass = resolvePath();
+ 
+   const cmd = [
+     sass,
++    "--trace",
+     ...args,
+   ];
+ 
++  console.log("running " + cmd.join(" "));
++
+   // Run the sas compiler
+   const result = await execProcess(
+     {
+       cmd,
+-      stdout: "piped",
+-      stderr: "piped",
++      // stdout: "piped",
++      // stderr: "piped",
+     },
+   );
+ 
++
+   if (result.success) {
++    console.log("sass succeeded");
+     if (result.stderr) {
+       info(result.stderr);
+     }
+-- 
+2.34.1
+

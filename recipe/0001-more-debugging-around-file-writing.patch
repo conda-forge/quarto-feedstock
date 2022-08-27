@@ -1,0 +1,53 @@
+From 6ed5cc7ad8ba30a62233c9d5077f27d5d970b993 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Tue, 30 Aug 2022 10:50:22 -0500
+Subject: [PATCH 1/1] more debugging around file writing
+
+---
+ src/command/check/check.ts | 5 +++--
+ src/core/temp.ts           | 4 +++-
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/src/command/check/check.ts b/src/command/check/check.ts
+index a804acf..f7df530 100644
+--- a/src/command/check/check.ts
++++ b/src/command/check/check.ts
+@@ -70,6 +70,7 @@ async function checkInstall(services: RenderServices) {
+     doneMessage: kMessage + "OK\n",
+   }, async () => {
+     const mdPath = services.temp.createFile({ suffix: "check.md" });
++    console.log("Writing to tempfile:", mdPath);
+     Deno.writeTextFileSync(
+       mdPath,
+       `
+@@ -80,10 +81,10 @@ title: "Title"
+ ## Header
+ `,
+     );
+-    console.info("Awaiting test markdown render...");
++    console.log("Wrote successfully");
+     const result = await render(mdPath, {
+       services,
+-      flags: { quiet: false },
++      flags: { quiet: true },
+     });
+     if (result.error) {
+       throw result.error;
+diff --git a/src/core/temp.ts b/src/core/temp.ts
+index f28b773..9d7b9f5 100644
+--- a/src/core/temp.ts
++++ b/src/core/temp.ts
+@@ -61,7 +61,9 @@ export function createTempContext(options?: Deno.MakeTempOptions) {
+   });
+   return {
+     createFile: (options?: Deno.MakeTempOptions) => {
+-      return Deno.makeTempFileSync({ ...options, dir });
++      const file = Deno.makeTempFileSync({ ...options, dir });
++      console.info("Creating temp file: " + file);
++      return file
+     },
+     createDir: (options?: Deno.MakeTempOptions) => {
+       return Deno.makeTempDirSync({ ...options, dir });
+-- 
+2.34.1
+
