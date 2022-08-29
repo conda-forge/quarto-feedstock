@@ -1,16 +1,3 @@
-diff --git a/src/command/check/check.ts b/src/command/check/check.ts
-index e3135f1c8..aa33f8705 100644
---- a/src/command/check/check.ts
-+++ b/src/command/check/check.ts
-@@ -82,7 +82,7 @@ title: "Title"
-     );
-     const result = await render(mdPath, {
-       services,
--      flags: { quiet: true },
-+      flags: { quiet: false },
-     });
-     if (result.error) {
-       throw result.error;
 diff --git a/src/command/render/pandoc.ts b/src/command/render/pandoc.ts
 index ea7f6db32..5c50d5c07 100644
 --- a/src/command/render/pandoc.ts
