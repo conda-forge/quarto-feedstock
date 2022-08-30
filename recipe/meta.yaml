@@ -19,6 +19,7 @@ source:
     - 0002-conda-install-path-for-tinytex.patch
     - 0001-debug-output-in-check.ts.patch
     - 0003-output-debugging.patch
+    - 0001-more-debugging-around-file-writing.patch
 
 build:
   number: 0
