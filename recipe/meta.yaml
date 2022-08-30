@@ -20,6 +20,7 @@ source:
     - 0001-debug-output-in-check.ts.patch
     - 0003-output-debugging.patch
     - 0001-more-debugging-around-file-writing.patch
+    - 0001-pandoc-debugging-messages.patch
 
 build:
   number: 0
