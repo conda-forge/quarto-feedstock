@@ -21,6 +21,7 @@ source:
     - 0003-output-debugging.patch
     - 0001-more-debugging-around-file-writing.patch
     - 0001-pandoc-debugging-messages.patch
+    - 0001-debug-dart-sass.patch
 
 build:
   number: 0
