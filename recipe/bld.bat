@@ -1,3 +1,5 @@
+bin\quarto check
+
 robocopy bin %LIBRARY_BIN% /E
 robocopy share %LIBRARY_PREFIX%\share\quarto /E
 
