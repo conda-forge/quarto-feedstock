@@ -22,6 +22,7 @@ source:
     - 0001-more-debugging-around-file-writing.patch
     - 0001-pandoc-debugging-messages.patch
     - 0001-debug-dart-sass.patch
+    - 0001-comment-execProcess-stdout-stderr.patch
 
 build:
   number: 0
