@@ -24,6 +24,7 @@ source:
     - 0001-debug-dart-sass.patch
     - 0001-comment-execProcess-stdout-stderr.patch
     - 0001-use-CONDA_PREFIX-as-user-dir-when-set.patch
+    - 0001-gate-removal-of-css-file-based-on-existence.patch
 
 build:
   number: 0
