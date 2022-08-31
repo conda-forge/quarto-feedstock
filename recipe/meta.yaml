@@ -8,23 +8,25 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
-  sha256: 31b7c6ba2f4b9030587b1df5779c10eca2e6a5f9cd72612cc8c9215d2dda5b8a
-  patches:
-    # TODO: I gave up on path override stuff for windows. You have to do setlocal enabledelayedexpansion and then endlocal after,
-    #    passing the variables out from the setlocal section. That was a headache, so I punted and just patch the hard-coded values
-    #    in the quarto setup script. The right way to do this is to figure out how to allow the variables to be overridden in the
-    #    generated win_configuration.bat file.
-    - 0001-win-conda-path-overrides.patch
-    - 0002-conda-install-path-for-tinytex.patch
-    - 0001-debug-output-in-check.ts.patch
-    - 0003-output-debugging.patch
-    - 0001-more-debugging-around-file-writing.patch
-    - 0001-pandoc-debugging-messages.patch
-    - 0001-debug-dart-sass.patch
-    - 0001-comment-execProcess-stdout-stderr.patch
-    - 0001-use-CONDA_PREFIX-as-user-dir-when-set.patch
-    - 0001-gate-removal-of-css-file-based-on-existence.patch
+  - url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
+    sha256: 31b7c6ba2f4b9030587b1df5779c10eca2e6a5f9cd72612cc8c9215d2dda5b8a
+    patches:
+      # TODO: I gave up on path override stuff for windows. You have to do setlocal enabledelayedexpansion and then endlocal after,
+      #    passing the variables out from the setlocal section. That was a headache, so I punted and just patch the hard-coded values
+      #    in the quarto setup script. The right way to do this is to figure out how to allow the variables to be overridden in the
+      #    generated win_configuration.bat file.
+      - 0001-win-conda-path-overrides.patch
+      - 0002-conda-install-path-for-tinytex.patch
+      - 0001-debug-output-in-check.ts.patch
+      - 0003-output-debugging.patch
+      - 0001-more-debugging-around-file-writing.patch
+      - 0001-pandoc-debugging-messages.patch
+      - 0001-debug-dart-sass.patch
+      - 0001-comment-execProcess-stdout-stderr.patch
+      - 0001-use-CONDA_PREFIX-as-user-dir-when-set.patch
+      - 0001-gate-removal-of-css-file-based-on-existence.patch
+  - url: https://github.com/sass/dart-sass/releases/download/1.54.7/dart-sass-1.54.7-linux-x64.tar.gz
+    sha256: 275ec93ea86aecd3095a8f6a62d6993533b1a34135a89b61e267c88fd627eba9
 
 build:
   number: 0
@@ -47,7 +49,7 @@ requirements:
     #  that the version at runtime matches the one at build time
     - {{ pin_compatible("deno-dom", max_pin="x.x.x") }}
     - esbuild
-    - dart-sass
+    # - dart-sass
 
 test:
   commands:
