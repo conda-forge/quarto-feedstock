@@ -23,6 +23,7 @@ source:
     - 0001-pandoc-debugging-messages.patch
     - 0001-debug-dart-sass.patch
     - 0001-comment-execProcess-stdout-stderr.patch
+    - 0001-use-CONDA_PREFIX-as-user-dir-when-set.patch
 
 build:
   number: 0
