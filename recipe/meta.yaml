@@ -17,11 +17,19 @@ source:
     #    generated win_configuration.bat file.
     - 0001-win-conda-path-overrides.patch
     - 0002-conda-install-path-for-tinytex.patch
+    # - 0001-debug-output-in-check.ts.patch
+    # - 0003-output-debugging.patch
+    # - 0001-more-debugging-around-file-writing.patch
+    - 0001-pandoc-debugging-messages.patch
+    - 0001-debug-dart-sass.patch
+    # - 0001-comment-execProcess-stdout-stderr.patch
+    - 0001-use-CONDA_PREFIX-as-user-dir-when-set.patch
+    - 0001-gate-removal-of-css-file-based-on-existence.patch
+    # - 0001-debugging-env.patch
+    - 0001-truthiness-for-stdout-stderr-execProcess.patch
 
 build:
   number: 0
-  # Windows should work, but it currently hangs during the test phase. I'm disabling it until I can debug that issue.
-  skip: True  # [win]
 
 requirements:
   host:
@@ -49,7 +57,7 @@ test:
   requires:
     - python >=3
     - jupyter
-    - r-base
+    - r-base >=4
 
 about:
   home: https://quarto.org/

@@ -1,0 +1,68 @@
+From b00652f85d7873d8c523a399c8294d313af959f0 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Tue, 30 Aug 2022 10:57:17 -0500
+Subject: [PATCH 1/1] pandoc debugging messages
+
+---
+ src/command/render/pandoc.ts | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/command/render/pandoc.ts b/src/command/render/pandoc.ts
+index ea7f6db..c426e50 100644
+--- a/src/command/render/pandoc.ts
++++ b/src/command/render/pandoc.ts
+@@ -634,6 +634,8 @@ export async function runPandoc(
+     delete allDefaults[kTitlePrefix];
+   }
+ 
++  console.log("runPandoc: cacheCodePage");
++
+   // Attempt to cache the code page, if this windows.
+   // We cache the code page to prevent looking it up
+   // in the registry repeatedly (which triggers MS Defender)
+@@ -641,9 +643,11 @@ export async function runPandoc(
+     await cacheCodePage();
+   }
+ 
++  console.log("runPandoc: create filter results file");
+   // filter results json file
+   const filterResultsFile = options.temp.createFile();
+ 
++  console.log("runPandoc: create timing results file");
+   // timing results json file
+   const timingResultsFile = options.temp.createFile();
+ 
+@@ -850,11 +854,14 @@ export async function runPandoc(
+   const input = markdownWithRenderAfter +
+     keepSourceBlock(options.format, options.source);
+ 
++  console.log("runPandoc: create quarto-input.md")
++
+   // write input to temp file and pass it to pandoc
+   const inputTemp = options.temp.createFile({
+     prefix: "quarto-input",
+     suffix: ".md",
+   });
++  console.log("runPandoc: write input to quarto-input")
+   Deno.writeTextFileSync(inputTemp, input);
+   cmd.push(inputTemp);
+ 
+@@ -874,6 +881,7 @@ export async function runPandoc(
+   // This gives the semantics we want, as our metadata is 'logically' at the top of the
+   // file and subsequent blocks within the file should indeed override it (as should
+   // user invocations of --metadata-file or -M, which are included below in pandocArgs)
++  console.log("runPandoc: create quarto-metadata.yaml")
+   const metadataTemp = options.temp.createFile({
+     prefix: "quarto-metadata",
+     suffix: ".yml",
+@@ -881,6 +889,7 @@ export async function runPandoc(
+   const pandocPassedMetadata = ld.cloneDeep(pandocMetadata);
+   delete pandocPassedMetadata.format;
+   delete pandocPassedMetadata.project;
++  console.log("runPandoc: write metadata to quarto-metadata.yaml")
+   Deno.writeTextFileSync(
+     metadataTemp,
+     stringify(pandocPassedMetadata, {
+-- 
+2.34.1
+
