@@ -1,4 +1,4 @@
-{% set version = "1.1.145" %}
+{% set version = "1.2.335" %}
 {% set deno_version = load_file_regex(load_file='./configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
