@@ -13,6 +13,7 @@ source:
   patches:
   - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
   - 0001-win-conda-path-overrides.patch
+  - 0001-respect-QUARTO_PANDOC-in-update-pandoc.patch
 
 build:
   number: 1
