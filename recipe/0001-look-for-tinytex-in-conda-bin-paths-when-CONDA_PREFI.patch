@@ -1,0 +1,43 @@
+From 4aec5598e489ca2e72477c902f784a0a58346fd8 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Mon, 6 Mar 2023 19:49:03 -0600
+Subject: [PATCH] look for tinytex in conda bin paths when CONDA_PREFIX set
+
+---
+ src/tools/impl/tinytex-info.ts | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/src/tools/impl/tinytex-info.ts b/src/tools/impl/tinytex-info.ts
+index db9404414..07f29e640 100644
+--- a/src/tools/impl/tinytex-info.ts
++++ b/src/tools/impl/tinytex-info.ts
+@@ -21,6 +21,15 @@ export function hasTinyTex(): boolean {
+ }
+ 
+ export function tinyTexInstallDir(): string | undefined {
++  const condaPrefix = getenv("QUARTO_CONDA_PREFIX");
++  if (condaPrefix) {
++    switch (Deno.build.os) {
++      case "windows":
++        return join(condaPrefix, "Library");
++      default:
++        return condaPrefix;
++    }
++  }
+   switch (Deno.build.os) {
+     case "windows":
+       return expandPath(join(getenv("APPDATA", undefined), "TinyTeX"));
+@@ -35,6 +44,10 @@ export function tinyTexInstallDir(): string | undefined {
+ 
+ export function tinyTexBinDir(): string | undefined {
+   const basePath = tinyTexInstallDir();
++  const condaPrefix = getenv("QUARTO_CONDA_PREFIX");
++  if (condaPrefix) {
++    return join(condaPrefix, "bin");
++  }
+   if (basePath) {
+     switch (Deno.build.os) {
+       case "windows":
+-- 
+2.38.1
+

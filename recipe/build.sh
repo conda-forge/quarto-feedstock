@@ -30,6 +30,7 @@ mkdir -p $PREFIX/etc/conda/activate.d
   export QUARTO_ESBUILD=$PREFIX/bin/esbuild
   export QUARTO_DART_SASS=$PREFIX/bin/sass
   export QUARTO_SHARE_PATH=$PREFIX/share/quarto
+  export QUARTO_CONDA_PREFIX=$PREFIX
 EOF
 
 mkdir -p $PREFIX/etc/conda/deactivate.d
@@ -41,4 +42,5 @@ mkdir -p $PREFIX/etc/conda/deactivate.d
   unset QUARTO_ESBUILD
   unset QUARTO_DART_SASS
   unset QUARTO_SHARE_PATH
+  unset QUARTO_CONDA_PREFIX
 EOF
