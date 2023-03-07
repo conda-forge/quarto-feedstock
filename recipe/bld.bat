@@ -24,7 +24,7 @@ MKDIR %PREFIX%\etc\conda\activate.d
   echo SET "QUARTO_DENO=%LIBRARY_BIN:\=/%\deno.exe"
   echo SET "QUARTO_DENO_DOM=%DENO_DOM_PLUGIN%"
   :: this one is hacky because pandoc does not conform to the Library convention on windows.
-  echo SET "QUARTO_PANDOC=%LIBRARY_PREFIX%\..\bin\pandoc.exe"
+  echo SET "QUARTO_PANDOC=%LIBRARY_BIN:\=/%\pandoc.exe"
   echo SET "QUARTO_ESBUILD=%LIBRARY_BIN:\=/%\esbuild.exe"
   echo SET "QUARTO_DART_SASS=%LIBRARY_BIN:\=/%\sass.bat"
   echo SET "QUARTO_SHARE_PATH=%LIBRARY_PREFIX:\=/%\share\quarto"
