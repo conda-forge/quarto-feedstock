@@ -1,0 +1,39 @@
+From 4536875544f3abb70c808e37d8a6e546601497fc Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Tue, 7 Mar 2023 09:16:34 -0600
+Subject: [PATCH] respect QUARTO_PANDOC in update-pandoc
+
+---
+ package/src/common/update-pandoc.ts | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/package/src/common/update-pandoc.ts b/package/src/common/update-pandoc.ts
+index 75a0fbf43..3e30c7cba 100644
+--- a/package/src/common/update-pandoc.ts
++++ b/package/src/common/update-pandoc.ts
+@@ -89,7 +89,7 @@ async function writePandocTemplates(config: Configuration) {
+   }];
+   for (const temp of formatTemplates) {
+     info(`> ${temp.pandoc}`);
+-    const template = await readTemplate(temp.pandoc, binPath);
++    const template = await readTemplate(temp.pandoc, binPath, config);
+     if (template) {
+       ensureDirSync(dirname(temp.output));
+       Deno.writeTextFileSync(temp.output, template);
+@@ -101,9 +101,11 @@ async function writePandocTemplates(config: Configuration) {
+   info("");
+ }
+ 
+-async function readTemplate(format: string, bin: string): Promise<string> {
++async function readTemplate(format: string, bin: string, config: Configuration): Promise<string> {
++  const pandoc = Deno.env.get("QUARTO_PANDOC") ||
++    join(config.directoryInfo.bin, "tools", "pandoc");
+   const result = await execProcess({
+-    cmd: [join(bin, "tools", "pandoc"), "--print-default-template", format],
++    cmd: [pandoc, "--print-default-template", format],
+     stdout: "piped",
+     stderr: "piped",
+   });
+-- 
+2.38.1
+
