@@ -1,13 +1,20 @@
 set -ex
 
+export NATIVE_PREFIX=$PREFIX
+if [[ "$CONDA_BUILD_CROSS_COMPILATION" = "1" ]]; then
+    # We are cross-compiling, so we need to use the build prefix
+    export NATIVE_PREFIX=$BUILD_PREFIX
+    mkdir -p $PREFIX/bin
+    mkdir -p $PREFIX/share/quarto
+fi
+
 export QUARTO_VENDOR_BINARIES=false
 export QUARTO_NO_SYMLINK=1
-export QUARTO_DENO=$PREFIX/bin/deno
-export DENO_BIN_PATH=$PREFIX/bin/deno
+export QUARTO_DENO=$NATIVE_PREFIX/bin/deno
+export DENO_BIN_PATH=$NATIVE_PREFIX/bin/deno
 export QUARTO_DENO_DOM=$DENO_DOM_PLUGIN
-export QUARTO_PANDOC=$PREFIX/bin/pandoc
-export QUARTO_ESBUILD=$PREFIX/bin/esbuild
-export QUARTO_DART_SASS=$PREFIX/bin/sass
+export QUARTO_PANDOC=$NATIVE_PREFIX/bin/pandoc
+export QUARTO_ESBUILD=$NATIVE_PREFIX/bin/esbuild
 
 export QUARTO_PACKAGE_PATH=$SRC_DIR/package
 export QUARTO_DIST_PATH=$PREFIX

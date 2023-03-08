@@ -1,16 +1,10 @@
 MACOSX_DEPLOYMENT_TARGET:
-- '10.9'
+- '11.0'
 channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
 macos_machine:
-- x86_64-apple-darwin13.4.0
-pin_run_as_build:
-  r-base:
-    min_pin: x.x
-    max_pin: x.x
-r_base:
-- '4.1'
+- arm64-apple-darwin20.0.0
 target_platform:
-- osx-64
+- osx-arm64
