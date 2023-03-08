@@ -14,9 +14,10 @@ source:
   - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
   - 0001-win-conda-path-overrides.patch
   - 0001-respect-QUARTO_PANDOC-in-update-pandoc.patch
+  - 0001-patch-QUARTO_VERSION-into-configuration-scripts.patch
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   host:
@@ -41,6 +42,8 @@ requirements:
 test:
   commands:
     - quarto check
+    - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix]
+    # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
   requires:
     - python >=3
     - jupyter
