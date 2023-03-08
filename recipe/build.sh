@@ -4,6 +4,8 @@ export NATIVE_PREFIX=$PREFIX
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" = "1" ]]; then
     # We are cross-compiling, so we need to use the build prefix
     export NATIVE_PREFIX=$BUILD_PREFIX
+    mkdir -p $PREFIX/bin
+    mkdir -p $PREFIX/share/quarto
 fi
 
 export QUARTO_VENDOR_BINARIES=false
