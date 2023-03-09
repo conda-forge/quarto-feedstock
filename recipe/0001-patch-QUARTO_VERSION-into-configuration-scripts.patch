@@ -1,0 +1,24 @@
+From e2dd5b91ee2f9f4444be875d9e63f63986b1b849 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Wed, 8 Mar 2023 15:14:30 -0600
+Subject: [PATCH] patch QUARTO_VERSION into configuration scripts
+
+---
+ configuration | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/configuration b/configuration
+index 660eed1b5..603e2e98c 100644
+--- a/configuration
++++ b/configuration
+@@ -43,7 +43,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
+ 
+ 
+ # Quarto Info Version
+-export QUARTO_VERSION=1.2
+ export QUARTO_NAME=Quarto
+ export QUARTO_BUILD_RUN_OFFSET=-1500
+ 
+-- 
+2.38.1
+
