@@ -1,5 +1,6 @@
 {% set version = "1.2.475" %}
 {% set sha256 = "4c32f39e13fa0f0a0b9a43cb09581fca3bd9ceb805d12b519dd1164b793f370a" %}
+{% set build_number = 0 %}
 {% set deno_version = load_file_regex(load_file='./configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
@@ -18,7 +19,7 @@ source:
   - 0001-patch-QUARTO_VERSION-into-configuration-scripts.patch
 
 build:
-  number: 2
+  number: {{ build_number }}
 
 requirements:
   build:
