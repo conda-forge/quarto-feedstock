@@ -183,5 +183,6 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
+* [@mattf-nsidc](https://github.com/mattf-nsidc/)
 * [@msarahan](https://github.com/msarahan/)
 
