@@ -13,10 +13,9 @@ source:
   url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-  - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
-  - 0001-win-conda-path-overrides.patch
-  - 0001-respect-QUARTO_PANDOC-in-update-pandoc.patch
-  - 0001-patch-QUARTO_VERSION-into-configuration-scripts.patch
+    - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
+    - 0001-win-conda-path-overrides.patch
+    - 0001-respect-QUARTO_VERSION-set-by-build-scripts.patch
 
 build:
   number: {{ build_number }}
