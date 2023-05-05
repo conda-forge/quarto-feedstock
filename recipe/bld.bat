@@ -9,8 +9,8 @@ SET QUARTO_DART_SASS=%LIBRARY_BIN%\sass.exe
 :: This is patched in for conda. This is otherwise set as a constant in `configuration`
 SET "QUARTO_VERSION=%PKG_VERSION%"
 
-:: See comment in meta.yaml. These should be set here, and they should override values in win_configuration.bat,
-::    but batch scripts make that non-trivial.
+:: TODO: These should be set here, and they should override values in
+::       win_configuration.bat, but batch scripts make that non-trivial.
 @REM SET QUARTO_PACKAGE_PATH=%SRC_DIR%\package
 @REM SET QUARTO_DIST_PATH=%LIBRARY_PREFIX%
 @REM SET QUARTO_SHARE_PATH=%LIBRARY_PREFIX%\share\quarto
