@@ -16,6 +16,7 @@ source:
     - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
     - 0001-win-conda-path-overrides.patch
     - 0001-respect-QUARTO_VERSION-set-by-build-scripts.patch
+    - 0001-log-deno-bundle-command.patch
 
 build:
   number: {{ build_number }}

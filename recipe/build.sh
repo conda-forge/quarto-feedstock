@@ -30,7 +30,6 @@ export QUARTO_VERSION=$PKG_VERSION
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
 
-# here-doc tab indented
 mkdir -p $PREFIX/etc/conda/activate.d
 { read -r -d '' || printf >$PREFIX/etc/conda/activate.d/quarto.sh '%s' "$REPLY"; } <<-EOF
   #!/bin/sh
