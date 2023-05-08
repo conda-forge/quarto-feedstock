@@ -1,0 +1,86 @@
+From bdf579b9d85c44a67571162da7c548dbbff1d6a6 Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Mon, 8 May 2023 18:15:47 +0000
+Subject: [PATCH] add external installer command for packagers like conda
+
+---
+ package/src/bld.ts                |  6 ++++++
+ package/src/external/README.md    |  4 ++++
+ package/src/external/installer.ts | 30 ++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+)
+ create mode 100644 package/src/external/README.md
+ create mode 100644 package/src/external/installer.ts
+
+diff --git a/package/src/bld.ts b/package/src/bld.ts
+index 415003991..f21617e04 100644
+--- a/package/src/bld.ts
++++ b/package/src/bld.ts
+@@ -17,6 +17,7 @@ import {
+   compileQuartoLatexmkCommand,
+ } from "./common/compile-quarto-latexmk.ts";
+ import { makeInstallerWindows } from "./windows/installer.ts";
++import { makeInstallerExternal } from "./external/installer.ts";
+ 
+ import { appendLogOptions } from "../../src/core/log.ts";
+ import {
+@@ -95,6 +96,11 @@ function getCommands() {
+       .name("make-installer-win")
+       .description("Builds Windows installer"),
+   );
++  commands.push(
++    packageCommand(makeInstallerExternal)
++      .name("install-external")
++      .description("Installs Quarto-only files (no dependencies) to specified location"),
++  );
+   commands.push(
+     compileQuartoLatexmkCommand(),
+   );
+diff --git a/package/src/external/README.md b/package/src/external/README.md
+new file mode 100644
+index 000000000..7bfe8c698
+--- /dev/null
++++ b/package/src/external/README.md
+@@ -0,0 +1,4 @@
++Scripts in this folder are intended for use by external package managers, such as Conda.
++The intention is that the packaging process consists of only the minimal quarto files, and
++not any of the vendored dependencies. No packages are created by this process. Instead,
++files are put in a user-specified location such that an external packaging tool will bundle them.
+diff --git a/package/src/external/installer.ts b/package/src/external/installer.ts
+new file mode 100644
+index 000000000..6b28df15d
+--- /dev/null
++++ b/package/src/external/installer.ts
+@@ -0,0 +1,30 @@
++/*
++* installer.ts
++*
++* Copyright (C) 2020-2022 Posit Software, PBC
++*
++*/
++import { join } from "path/mod.ts";
++import { copySync } from "fs/copy.ts";
++import { info } from "log/mod.ts";
++
++import { Configuration } from "../common/config.ts";
++
++export async function makeInstallerExternal(
++  configuration: Configuration,
++) {
++  info("Copying Quarto files...");
++
++  // Ultimate control is setting this env var. Fallback is a folder within QUARTO_DIST_PATH.
++  const workingBinPath = join(configuration.directoryInfo.dist, "bin");
++  copySync(configuration.directoryInfo.pkgWorking.bin, workingBinPath, {
++    overwrite: true,
++  });
++
++  // The assumption here is that you're installing to a shared location. The probability of a namespace conflict is pretty high.
++  // Thus, we nest the share contents in a quarto folder. At runtime, the QUARTO_SHARE_PATH env var accounts for this.
++  const workingSharePath = join( configuration.directoryInfo.dist, "share", "quarto");
++  copySync(configuration.directoryInfo.pkgWorking.share, workingSharePath, {
++    overwrite: true,
++  });
++}
+-- 
+2.39.2
+

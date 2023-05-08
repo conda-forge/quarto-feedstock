@@ -12,10 +12,11 @@ package:
 source:
   url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  # path: ../../quarto-cli/
   patches:
     - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
     - 0001-win-conda-path-overrides.patch
-    - 0001-respect-QUARTO_VERSION-set-by-build-scripts.patch
+    - 0001-add-external-installer-command-for-packagers-like-co.patch
 
 build:
   number: {{ build_number }}
@@ -42,6 +43,7 @@ requirements:
 
 test:
   commands:
+    - env
     - quarto check
     - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix]
     # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
