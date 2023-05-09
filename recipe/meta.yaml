@@ -51,8 +51,8 @@ test:
   files:
     - hello.qmd
   requires:
-    - python >=3
     - jupyter
+    - python >=3
     - r-base >=4
 
 about:

@@ -9,3 +9,8 @@ jupyter: python3
 ```{python}
 print('hello world')
 ```
+
+
+```{r}
+print('hello world')
+```
