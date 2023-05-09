@@ -21,9 +21,6 @@ export QUARTO_DIST_PATH=$PREFIX
 source configuration
 source package/src/set_package_paths.sh
 
-# This is patched in for conda. This is otherwise set as a constant in `configuration`
-export QUARTO_VERSION=$PKG_VERSION
-
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
 bash package/src/quarto-bld install-external
