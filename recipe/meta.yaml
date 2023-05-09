@@ -18,7 +18,7 @@ source:
     - 0001-win-conda-path-overrides.patch
     - 0001-add-external-installer-command-for-packagers-like-co.patch
     - 0001-log-deno-bundle-command.patch
-    - 0001-set-version.patch
+    - 0001-remove-QUARTO_VERSION-from-configuration.patch
 
 build:
   number: {{ build_number }}

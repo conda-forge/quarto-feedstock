@@ -18,7 +18,16 @@ export QUARTO_ESBUILD=$NATIVE_PREFIX/bin/esbuild
 
 export QUARTO_DIST_PATH=$PREFIX
 
+# Alter the configuration file with a dynamic value containing the full
+# package version (e.g. 1.3.340). The only thing allowed in this file is
+# export statements with static assignments, so we use a combination of a
+# patch to update the source code to remove the original assignment and a
+# build-time update to place the dynamic build-time PKG_VERSION as a static
+# value.
+# More context: https://github.com/conda-forge/quarto-feedstock/pull/7
+echo "export QUARTO_VERSION=${PKG_VERSION}" >> configuration
 source configuration
+
 source package/src/set_package_paths.sh
 
 bash configure.sh
