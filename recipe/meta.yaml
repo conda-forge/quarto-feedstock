@@ -17,6 +17,7 @@ source:
     - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
     - 0001-win-conda-path-overrides.patch
     - 0001-add-external-installer-command-for-packagers-like-co.patch
+    - 0001-log-deno-bundle-command.patch
 
 build:
   number: {{ build_number }}
@@ -47,6 +48,9 @@ test:
     - quarto check
     - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix]
     # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
+    - quarto render hello.qmd --to html
+  files:
+    - hello.qmd
   requires:
     - python >=3
     - jupyter

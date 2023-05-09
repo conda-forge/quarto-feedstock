@@ -1,0 +1,29 @@
+diff --git a/package/src/common/prepare-dist.ts b/package/src/common/prepare-dist.ts
+index e8fb9b6..0d5dd7e 100755
+--- a/package/src/common/prepare-dist.ts
++++ b/package/src/common/prepare-dist.ts
+@@ -109,7 +109,6 @@ export async function prepareDist(
+   const input = join(config.directoryInfo.src, "quarto.ts");
+   const output = join(config.directoryInfo.pkgWorking.bin, "quarto.js");
+   info("\nCreating Deno Bundle");
+-  info(output);
+   await bundle(
+     input,
+     output,
+diff --git a/package/src/util/deno.ts b/package/src/util/deno.ts
+index 39f7e16..56695e3 100644
+--- a/package/src/util/deno.ts
++++ b/package/src/util/deno.ts
+@@ -32,9 +32,12 @@ export async function bundle(
+   denoBundleCmd.push(input);
+   denoBundleCmd.push(output);
+ 
++  info(`Executing Deno bundle command: ${denoBundleCmd}`);
+   const p = Deno.run({
+     cmd: denoBundleCmd,
+   });
++  info(`Bundle complete!`);
++
+   const status = await p.status();
+   if (status.code !== 0) {
+     throw Error(`Failure to bundle ${input}`);
