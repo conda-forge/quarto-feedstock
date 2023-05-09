@@ -16,19 +16,17 @@ export QUARTO_DENO_DOM=$DENO_DOM_PLUGIN
 export QUARTO_PANDOC=$NATIVE_PREFIX/bin/pandoc
 export QUARTO_ESBUILD=$NATIVE_PREFIX/bin/esbuild
 
-export QUARTO_PACKAGE_PATH=$SRC_DIR/package
 export QUARTO_DIST_PATH=$PREFIX
-export QUARTO_BIN_PATH=$PREFIX/bin
-export QUARTO_SHARE_PATH=$PREFIX/share/quarto
 
-source package/src/set_package_paths.sh
 source configuration
+source package/src/set_package_paths.sh
 
 # This is patched in for conda. This is otherwise set as a constant in `configuration`
 export QUARTO_VERSION=$PKG_VERSION
 
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
+bash package/src/quarto-bld install-external
 
 mkdir -p $PREFIX/etc/conda/activate.d
 { read -r -d '' || printf >$PREFIX/etc/conda/activate.d/quarto.sh '%s' "$REPLY"; } <<-EOF

@@ -17,6 +17,7 @@ SET "QUARTO_VERSION=%PKG_VERSION%"
 
 call configure.cmd
 call package\src\quarto-bld.cmd prepare-dist
+call package\src\quarto-bld.cmd install-external
 
 MKDIR %PREFIX%\etc\conda\activate.d
 (
