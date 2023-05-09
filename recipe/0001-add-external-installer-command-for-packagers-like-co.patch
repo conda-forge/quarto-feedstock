@@ -68,7 +68,7 @@ index 000000000..6b28df15d
 +) {
 +  info("Copying Quarto files...");
 +
-+  // Ultimate control is setting this env var. Fallback is a folder within QUARTO_DIST_PATH.
++  // It's expected that the external build tool will set QUARTO_DIST_PATH.
 +  const workingBinPath = join(configuration.directoryInfo.dist, "bin");
 +  copySync(configuration.directoryInfo.pkgWorking.bin, workingBinPath, {
 +    overwrite: true,
