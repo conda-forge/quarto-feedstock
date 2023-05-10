@@ -22,6 +22,10 @@ echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 @REM SET QUARTO_SHARE_PATH=%LIBRARY_PREFIX%\share\quarto
 
 call configure.cmd
+:: this shouldn't be strictly necessary, since configure.cmd should theoretically set it, but the builds don't
+:: seem to be picking this up. Leaving this in as a hack for now.
+set QUARTO_VERSION=%PKG_VERSION%
+
 call package\src\quarto-bld.cmd prepare-dist
 call package\src\quarto-bld.cmd install-external
 
