@@ -183,9 +183,6 @@ In order to produce a uniquely identifiable distribution:
 Feedstock Maintainers
 =====================
 
-* [@mattf-nsidc](https://github.com/mattf-nsidc/)
+* [@mfisher87](https://github.com/mfisher87/)
 * [@msarahan](https://github.com/msarahan/)
-
-
-<!-- dummy commit to enable rerendering -->
 
