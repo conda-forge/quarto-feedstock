@@ -13,7 +13,7 @@ SET QUARTO_DART_SASS=%LIBRARY_BIN%\sass.exe
 :: build-time update to place the dynamic build-time PKG_VERSION as a static
 :: value.
 :: More context: https://github.com/conda-forge/quarto-feedstock/pull/7
-echo "export QUARTO_VERSION=%PKG_VERSION%" >> configuration
+echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 
 :: TODO: These should be set here, and they should override values in
 ::       win_configuration.bat, but batch scripts make that non-trivial.
