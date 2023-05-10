@@ -16,21 +16,24 @@ export QUARTO_DENO_DOM=$DENO_DOM_PLUGIN
 export QUARTO_PANDOC=$NATIVE_PREFIX/bin/pandoc
 export QUARTO_ESBUILD=$NATIVE_PREFIX/bin/esbuild
 
-export QUARTO_PACKAGE_PATH=$SRC_DIR/package
 export QUARTO_DIST_PATH=$PREFIX
-export QUARTO_BIN_PATH=$PREFIX/bin
-export QUARTO_SHARE_PATH=$PREFIX/share/quarto
 
-source package/src/set_package_paths.sh
+# Alter the configuration file with a dynamic value containing the full
+# package version (e.g. 1.3.340). The only thing allowed in this file is
+# export statements with static assignments, so we use a combination of a
+# patch to update the source code to remove the original assignment and a
+# build-time update to place the dynamic build-time PKG_VERSION as a static
+# value.
+# More context: https://github.com/conda-forge/quarto-feedstock/pull/7
+echo "export QUARTO_VERSION=${PKG_VERSION}" >> configuration
 source configuration
 
-# This is patched in for conda. This is otherwise set as a constant in `configuration`
-export QUARTO_VERSION=$PKG_VERSION
+source package/src/set_package_paths.sh
 
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
+bash package/src/quarto-bld install-external
 
-# here-doc tab indented
 mkdir -p $PREFIX/etc/conda/activate.d
 { read -r -d '' || printf >$PREFIX/etc/conda/activate.d/quarto.sh '%s' "$REPLY"; } <<-EOF
   #!/bin/sh

@@ -1,0 +1,37 @@
+Remove QUARTO_VERSION assignment for build-time patching with a dynamic value
+
+See `bld.bat` and `build.sh` for the build-time patch. The comment in this
+patch explains why we couldn't simply patch in an assignment like `export
+QUARTO_VERSION=${PKG_VERSION}`.
+
+TODO: Propose this comment change to upstream.
+diff --git a/configuration b/configuration
+index 0b6bef3..77c00a0 100644
+--- a/configuration
++++ b/configuration
+@@ -1,11 +1,16 @@
+ #!/bin/bash
+ 
+-
+ # This file contains the global configuration for the quarto configuration
+ #
+ # The configuration is used both as a local runtime version of Quarto for developers
+ # but it also used when packaging (e.g. run configure.sh, then prepare-dist.sh, then package.sh)
+ # deno_dom should match release at https://github.com/b-fuze/deno-dom/releases
++#
++# WARNING: The windows build process (started with `configure.cmd`) will
++# replace the export statements with set statements to create a Windows
++# configuration. For that reason, this file should only contain `export`
++# statements assigning static values to variables. There should be no variable
++# expansion in the assignments, e.g. `export foo=${BAR}`.
+ 
+ # Binary dependencies
+ export DENO=v1.28.2
+@@ -44,7 +49,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
+ 
+ 
+ # Quarto Info Version
+-export QUARTO_VERSION=1.3
+ export QUARTO_NAME=Quarto
+ export QUARTO_BUILD_RUN_OFFSET=-1690
+ 
