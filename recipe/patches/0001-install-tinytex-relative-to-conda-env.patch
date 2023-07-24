@@ -1,0 +1,42 @@
+Enable TinyTeX to be installed relative to the conda prefix in which Quarto is installed
+
+diff --git a/src/tools/impl/tinytex-info.ts b/src/tools/impl/tinytex-info.ts
+index 34c10a0ce..3af759f1c 100644
+--- a/src/tools/impl/tinytex-info.ts
++++ b/src/tools/impl/tinytex-info.ts
+@@ -21,6 +21,12 @@ export function hasTinyTex(): boolean {
+ }
+ 
+ export function tinyTexInstallDir(): string | undefined {
++  // Install TinyTex inside the conda environment
++  const condaPrefix = getenv("QUARTO_CONDA_PREFIX");
++  if (condaPrefix) {
++    return join(condaPrefix, "share", "TinyTex");
++  }
++
+   switch (Deno.build.os) {
+     case "windows":
+       return expandPath(join(getenv("APPDATA", undefined), "TinyTeX"));
+diff --git a/src/tools/impl/tinytex.ts b/src/tools/impl/tinytex.ts
+index e3d5ef949..f35fc1dd0 100644
+--- a/src/tools/impl/tinytex.ts
++++ b/src/tools/impl/tinytex.ts
+@@ -84,15 +84,13 @@ export const tinyTexInstallable: InstallableTool = {
+ };
+ 
+ async function installed() {
++  // Don't search for alternative installations; that's not currently working
++  // as expected.
+   const hasTiny = hasTinyTex();
+   if (hasTiny) {
+     return true;
+   } else {
+-    if (await hasTexLive()) {
+-      return await isTinyTex();
+-    } else {
+-      return false;
+-    }
++    return false;
+   }
+ }
+ 

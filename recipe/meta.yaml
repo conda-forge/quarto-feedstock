@@ -1,6 +1,6 @@
 {% set version = "1.3.433" %}
 {% set sha256 = "609b809b1b018bea84187eaf2c83675a9eecec99bc98c1371ffa74209a9d1451" %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
@@ -13,11 +13,11 @@ source:
   url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - 0001-look-for-tinytex-in-conda-bin-paths-when-CONDA_PREFI.patch
-    - 0001-win-conda-path-overrides.patch
-    - 0001-add-external-installer-command-for-packagers-like-co.patch
-    - 0001-log-deno-bundle-command.patch
-    - 0001-remove-QUARTO_VERSION-from-configuration.patch
+    - patches/0001-install-tinytex-relative-to-conda-env.patch
+    - patches/0001-win-conda-path-overrides.patch
+    - patches/0001-add-external-installer-command-for-packagers-like-co.patch
+    - patches/0001-log-deno-bundle-command.patch
+    - patches/0001-remove-QUARTO_VERSION-from-configuration.patch
 
 build:
   number: {{ build_number }}
