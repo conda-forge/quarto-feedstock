@@ -13,7 +13,6 @@ source:
   url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - patches/0001-install-tinytex-relative-to-conda-env.patch
     - patches/0001-win-conda-path-overrides.patch
     - patches/0001-add-external-installer-command-for-packagers-like-co.patch
     - patches/0001-log-deno-bundle-command.patch
