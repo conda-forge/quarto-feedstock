@@ -17,6 +17,7 @@ source:
     - patches/0001-log-deno-bundle-command.patch
     - patches/0001-remove-QUARTO_VERSION-from-configuration.patch
     - patches/0001-skip-pandoc-symlink.patch
+    - patches/0001-always-build-quarto-preview-js.patch
 
 build:
   number: {{ build_number }}
