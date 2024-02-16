@@ -1,3 +1,11 @@
+Remove a conditional that decides whether `quarto-preview.js`, the code which
+handles hot-reloading when using `quarto preview`, should be built. In our
+case, it should be, but the conditional was deciding not to.
+
+IMPORTANT: This patch is temporary. A fix will be applied upstream to enable us
+to remove this patch. See: 
+https://github.com/conda-forge/quarto-feedstock/pull/36#issuecomment-1947515694 
+
 diff --git a/src/webui/quarto-preview/build.ts b/src/webui/quarto-preview/build.ts
 index 625cc7910..728afb060 100644
 --- a/src/webui/quarto-preview/build.ts
