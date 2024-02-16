@@ -1,6 +1,6 @@
 {% set version = "1.4.550" %}
 {% set sha256 = "245d9961c1a777a92d0821b30ea4cf15b83c40115e5f419f5d1135e0cd73e2ab" %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
@@ -29,7 +29,7 @@ requirements:
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     - esbuild
-    - pandoc    {{ pandoc_version.group(1) if deno_dom_version else "" }}
+    - pandoc    {{ pandoc_version.group(1) if pandoc_version else "" }}
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here
