@@ -32,7 +32,7 @@ source package/src/set_package_paths.sh
 
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
-bash package/src/quarto-bld install-external
+bash package/src/quarto-bld make-installer-dir
 
 mkdir -p $PREFIX/etc/conda/activate.d
 { read -r -d '' || printf >$PREFIX/etc/conda/activate.d/quarto.sh '%s' "$REPLY"; } <<-EOF
