@@ -7,14 +7,15 @@ to remove this patch. See:
 https://github.com/conda-forge/quarto-feedstock/pull/36#issuecomment-1947515694 
 
 diff --git a/src/webui/quarto-preview/build.ts b/src/webui/quarto-preview/build.ts
-index 625cc7910..728afb060 100644
+index 55d4e4b6b..44c3a8001 100644
 --- a/src/webui/quarto-preview/build.ts
 +++ b/src/webui/quarto-preview/build.ts
-@@ -11,25 +11,7 @@ try {
+@@ -12,26 +12,7 @@ try {
+   jsBuildTime = 0;
  }
  
- // check if any of our repo files have a later time
--let build = false;
+-// check if any of our repo files have a later time
+-let build = args.length > 0 && args.includes("--force");
 -try {
 -  const command = new Deno.Command("git", { args: ["ls-files"] });
 -  const cmdOutput = await command.output();
@@ -24,7 +25,7 @@ index 625cc7910..728afb060 100644
 -    build = files.some((file) =>
 -      Deno.statSync(file).mtime!.valueOf() > jsBuildTime
 -    );
--  } else { 
+-  } else {
 -    // not in a git repo, rebuild
 -    build = true;
 -  }
