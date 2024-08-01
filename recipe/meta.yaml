@@ -1,9 +1,10 @@
-{% set version = "1.4.557" %}
-{% set sha256 = "d763346011f8a8034308d1f3d805c9a80049aa20893f7358778aac8bbea41778" %}
+{% set version = "1.5.55" %}
+{% set sha256 = "01409348fdb2f88db64862ee5165defdf79610c3a61d5d46b871d4c5c2247587" %}
 {% set build_number = 0 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
+{% set typst_version = load_file_regex(load_file='configuration', regex_pattern='export TYPST=(\S+)') %}
 
 package:
   name: quarto
@@ -26,6 +27,7 @@ requirements:
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     - esbuild
     - pandoc    {{ pandoc_version.group(1) if pandoc_version else "" }}
+    - typst     {{ typst_version.group(1) if typst_version else "" }}
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here
@@ -37,6 +39,7 @@ requirements:
     # we vendor deno-dom JS dependencies, so it is important
     #  that the version at runtime matches the one at build time
     - {{ pin_compatible("deno-dom", max_pin="x.x.x") }}
+    - typst     {{ typst_version.group(1) if typst_version else "" }}
     - esbuild
     - dart-sass
 

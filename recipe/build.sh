@@ -15,6 +15,7 @@ export DENO_BIN_PATH=$NATIVE_PREFIX/bin/deno
 export QUARTO_DENO_DOM=$DENO_DOM_PLUGIN
 export QUARTO_PANDOC=$NATIVE_PREFIX/bin/pandoc
 export QUARTO_ESBUILD=$NATIVE_PREFIX/bin/esbuild
+export QUARTO_TYPST=$NATIVE_PREFIX/bin/typst
 
 export QUARTO_DIST_PATH=$PREFIX
 
@@ -41,6 +42,7 @@ mkdir -p $PREFIX/etc/conda/activate.d
   export QUARTO_DENO_DOM=$DENO_DOM_PLUGIN
   export QUARTO_PANDOC=$PREFIX/bin/pandoc
   export QUARTO_ESBUILD=$PREFIX/bin/esbuild
+  export QUARTO_TYPST=$PREFIX/bin/typst
   export QUARTO_DART_SASS=$PREFIX/bin/sass
   export QUARTO_SHARE_PATH=$PREFIX/share/quarto
   export QUARTO_CONDA_PREFIX=$PREFIX
@@ -53,6 +55,7 @@ mkdir -p $PREFIX/etc/conda/deactivate.d
   unset QUARTO_DENO_DOM
   unset QUARTO_PANDOC
   unset QUARTO_ESBUILD
+  unset QUARTO_TYPST
   unset QUARTO_DART_SASS
   unset QUARTO_SHARE_PATH
   unset QUARTO_CONDA_PREFIX

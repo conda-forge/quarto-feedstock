@@ -5,6 +5,9 @@ SET DENO_BIN_PATH=%LIBRARY_BIN%\deno.exe
 SET QUARTO_PANDOC=%LIBRARY_BIN%\pandoc.exe
 SET QUARTO_ESBUILD=%LIBRARY_BIN%\esbuild.exe
 SET QUARTO_DART_SASS=%LIBRARY_BIN%\sass.exe
+:: IMPORTANT: With Typst 0.11.1, the executable moves to %LIBRARY_BIN%. This
+:: change will be required with Quarto 1.6.
+SET QUARTO_TYPST=%PREFIX%\bin\typst.exe
 
 :: Alter the configuration file with a dynamic value containing the full
 :: package version (e.g. 1.3.340). The only thing allowed in this file is
@@ -41,6 +44,9 @@ MKDIR %PREFIX%\etc\conda\activate.d
   echo SET "QUARTO_PANDOC=%LIBRARY_BIN:\=/%\pandoc.exe"
   echo SET "QUARTO_ESBUILD=%LIBRARY_BIN:\=/%\esbuild.exe"
   echo SET "QUARTO_DART_SASS=%LIBRARY_BIN:\=/%\sass.bat"
+  :: IMPORTANT: With Typst 0.11.1, the executable moves to %LIBRARY_BIN%. This
+  :: change will be required with Quarto 1.6.
+  echo SET "QUARTO_TYPST=%PREFIX:\=/%\bin\typst.exe"
   echo SET "QUARTO_SHARE_PATH=%LIBRARY_PREFIX:\=/%\share\quarto"
   echo SET "QUARTO_CONDA_PREFIX=%LIBRARY_PREFIX:\=/%"
 ) > %PREFIX%\etc\conda\activate.d\quarto.bat
@@ -52,6 +58,7 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
   echo SET QUARTO_PANDOC=
   echo SET QUARTO_ESBUILD=
   echo SET QUARTO_DART_SASS=
+  echo SET QUARTO_TYPST=
   echo SET QUARTO_SHARE_DIR=
   echo set QUARTO_CONDA_PREFIX=
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.bat

@@ -9,4 +9,9 @@ github:
 test: native_and_emulated
 bot:
   version_updates:
-    skip: True
+    # Quarto uses the "pre-release" marker in GitHub to differentiate between
+    # full releases and pre-releases instead of communicating that information
+    # in the version number like the bot expects. This setting omits GitHub
+    # pre-releases from the bot's detection mechanism.
+    # Context: https://github.com/regro/cf-scripts/issues/2642
+    sources: ["githubreleases"]

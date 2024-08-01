@@ -6,32 +6,27 @@ QUARTO_VERSION=${PKG_VERSION}`.
 
 TODO: Propose this comment change to upstream.
 diff --git a/configuration b/configuration
-index 0b6bef3..77c00a0 100644
+index 7db77dd2c..8b2e7484a 100644
 --- a/configuration
 +++ b/configuration
-@@ -1,11 +1,16 @@
- #!/bin/bash
-
--
- # This file contains the global configuration for the quarto configuration
- #
+@@ -6,6 +6,12 @@
  # The configuration is used both as a local runtime version of Quarto for developers
  # but it also used when packaging (e.g. run configure.sh, then prepare-dist.sh, then package.sh)
  # deno_dom should match release at https://github.com/b-fuze/deno-dom/releases
 +#
 +# WARNING: The windows build process (started with `configure.cmd`) will
-+# replace the export statements with set statements to create a Windows
++# replace the `export` statements with `set` statements to create a Windows
 +# configuration. For that reason, this file should only contain `export`
 +# statements assigning static values to variables. There should be no variable
 +# expansion in the assignments, e.g. `export foo=${BAR}`.
-
+ 
  # Binary dependencies
- export DENO=v1.28.2
-@@ -44,7 +49,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
-
-
+ export DENO=v1.41.0
+@@ -56,7 +62,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
+ 
+ 
  # Quarto Info Version
--export QUARTO_VERSION=1.4
+-export QUARTO_VERSION=1.5
  export QUARTO_NAME=Quarto
- export QUARTO_BUILD_RUN_OFFSET=-1690
-
+ 
+ # Folder names. These are not the same as paths (those variable names end in _PATH).
