@@ -50,6 +50,7 @@ test:
     - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix]
     # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
     - quarto render hello.qmd --to html
+    - test -e "${QUARTO_SHARE_PATH}/preview/quarto-preview.js"  # [unix]
   files:
     - hello.qmd
   requires:
