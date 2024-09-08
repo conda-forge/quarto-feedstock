@@ -1,6 +1,6 @@
 {% set version = "1.5.55" %}
 {% set sha256 = "01409348fdb2f88db64862ee5165defdf79610c3a61d5d46b871d4c5c2247587" %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
@@ -35,10 +35,10 @@ requirements:
     #    issues, but just that these dependencies are only
     #    known to work in a pretty narrow range.
     - {{ pin_compatible("deno", max_pin="x.x.x") }}
-    - {{ pin_compatible("pandoc", max_pin="x.x.x") }}
     # we vendor deno-dom JS dependencies, so it is important
     #  that the version at runtime matches the one at build time
     - {{ pin_compatible("deno-dom", max_pin="x.x.x") }}
+    - pandoc    {{ pandoc_version.group(1) if pandoc_version else "" }}
     - typst     {{ typst_version.group(1) if typst_version else "" }}
     - esbuild
     - dart-sass
