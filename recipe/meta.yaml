@@ -27,8 +27,8 @@ requirements:
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     - esbuild
-    - pandoc    {{ pandoc_version.group(1) if pandoc_version else "" }}
-    - typst     {{ typst_version.group(1) if typst_version else "" }}
+    - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
+    - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here
@@ -39,8 +39,8 @@ requirements:
     # we vendor deno-dom JS dependencies, so it is important
     #  that the version at runtime matches the one at build time
     - {{ pin_compatible("deno-dom", max_pin="x.x.x") }}
-    - pandoc    {{ pandoc_version.group(1) if pandoc_version else "" }}
-    - typst     {{ typst_version.group(1) if typst_version else "" }}
+    - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
+    - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
     - esbuild
     - dart-sass
 
