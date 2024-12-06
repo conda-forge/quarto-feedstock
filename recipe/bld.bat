@@ -59,6 +59,6 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
   echo SET QUARTO_ESBUILD=
   echo SET QUARTO_DART_SASS=
   echo SET QUARTO_TYPST=
-  echo SET QUARTO_SHARE_DIR=
-  echo set QUARTO_CONDA_PREFIX=
+  echo SET QUARTO_SHARE_PATH=
+  echo SET QUARTO_CONDA_PREFIX=
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.bat
