@@ -60,7 +60,7 @@ test:
 
 about:
   home: https://quarto.org/
-  license: GPL-2.0-or-later
+  license: MIT
   license_file:
     - COPYRIGHT
     - COPYING.md
