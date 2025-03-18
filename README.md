@@ -5,7 +5,7 @@ Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/quarto-feedstoc
 
 Home: https://quarto.org/
 
-Package license: GPL-2.0-or-later
+Package license: MIT
 
 Summary: An open-source scientific and technical publishing system built on Pandoc
 
