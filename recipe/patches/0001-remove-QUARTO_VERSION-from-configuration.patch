@@ -5,28 +5,30 @@ patch explains why we couldn't simply patch in an assignment like `export
 QUARTO_VERSION=${PKG_VERSION}`.
 
 TODO: Propose this comment change to upstream.
+
 diff --git a/configuration b/configuration
-index 7db77dd2c..8b2e7484a 100644
+index 1d4c2e6b7..cbd6b7a22 100644
 --- a/configuration
 +++ b/configuration
-@@ -6,6 +6,12 @@
- # The configuration is used both as a local runtime version of Quarto for developers
- # but it also used when packaging (e.g. run configure.sh, then prepare-dist.sh, then package.sh)
- # deno_dom should match release at https://github.com/b-fuze/deno-dom/releases
-+#
+@@ -10,6 +10,13 @@
+ # NB: When these are updated, you must also update the versions
+ # in src/command/check/check.ts
+ 
 +# WARNING: The windows build process (started with `configure.cmd`) will
 +# replace the `export` statements with `set` statements to create a Windows
 +# configuration. For that reason, this file should only contain `export`
 +# statements assigning static values to variables. There should be no variable
 +# expansion in the assignments, e.g. `export foo=${BAR}`.
- 
++
++
  # Binary dependencies
- export DENO=v1.41.0
-@@ -56,7 +62,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
+ export DENO=v1.46.3
+ # TODO figure out where 0.1.41 apple silicon libs are available
+@@ -61,7 +68,6 @@ export ALGOLIA_SEARCH_INSIGHTS_JS=2.0.3
  
  
  # Quarto Info Version
--export QUARTO_VERSION=1.6
+-export QUARTO_VERSION=1.7
  export QUARTO_NAME=Quarto
  
  # Folder names. These are not the same as paths (those variable names end in _PATH).
