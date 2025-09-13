@@ -16,7 +16,6 @@ source:
   patches:
     - patches/0001-win-conda-path-overrides.patch
     - patches/0001-remove-QUARTO_VERSION-from-configuration.patch
-    - patches/0001-always-build-quarto-preview-js.patch
 
 build:
   number: {{ build_number }}

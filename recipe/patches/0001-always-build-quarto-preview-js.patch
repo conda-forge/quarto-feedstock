@@ -13,7 +13,7 @@ diff --git a/src/webui/quarto-preview/build.ts b/src/webui/quarto-preview/build.
 index 55d4e4b6b..0663285fa 100644
 --- a/src/webui/quarto-preview/build.ts
 +++ b/src/webui/quarto-preview/build.ts
-@@ -47,11 +47,8 @@ const buildFromGit = async () => {
+@@ -52,11 +52,8 @@ const buildFromGit = async () => {
  };
  
  // check if any of our repo files have a later time
