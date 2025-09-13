@@ -27,6 +27,7 @@ requirements:
     - esbuild
     - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
+    - nodejs
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here
