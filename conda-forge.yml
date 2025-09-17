@@ -1,3 +1,7 @@
+bot:
+  version_updates:
+    sources:
+    - githubreleases
 build_platform:
   osx_arm64: osx_64
 conda_build:
@@ -7,11 +11,3 @@ github:
   branch_name: main
   tooling_branch_name: main
 test: native_and_emulated
-bot:
-  version_updates:
-    # Quarto uses the "pre-release" marker in GitHub to differentiate between
-    # full releases and pre-releases instead of communicating that information
-    # in the version number like the bot expects. This setting omits GitHub
-    # pre-releases from the bot's detection mechanism.
-    # Context: https://github.com/regro/cf-scripts/issues/2642
-    sources: ["githubreleases"]
