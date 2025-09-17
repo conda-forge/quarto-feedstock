@@ -1,5 +1,5 @@
-{% set version = "1.7.33" %}
-{% set sha256 = "46a09dfc6e7c3da14898e4c25a21a2fa469d9690adb71471fd265e2d674282a1" %}
+{% set version = "1.8.24" %}
+{% set sha256 = "bf5c40192dda347957988267f3ba51eb85c2cef6d39dcec4833e13870567845a" %}
 {% set build_number = 0 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
@@ -14,10 +14,8 @@ source:
   url: https://github.com/quarto-dev/quarto-cli/releases/download/v{{ version }}/quarto-{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - patches/0001-win-conda-path-overrides.patch
-    - patches/0001-log-deno-bundle-command.patch
+    - patches/0001-win-conda-path-overrides.patch  # [win]
     - patches/0001-remove-QUARTO_VERSION-from-configuration.patch
-    - patches/0001-always-build-quarto-preview-js.patch
 
 build:
   number: {{ build_number }}
@@ -29,6 +27,7 @@ requirements:
     - esbuild
     - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
+    - nodejs
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here

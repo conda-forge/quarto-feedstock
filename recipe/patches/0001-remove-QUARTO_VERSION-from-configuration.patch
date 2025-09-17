@@ -28,7 +28,7 @@ index 1d4c2e6b7..cbd6b7a22 100644
  
  
  # Quarto Info Version
--export QUARTO_VERSION=1.7
+-export QUARTO_VERSION=1.8
  export QUARTO_NAME=Quarto
  
  # Folder names. These are not the same as paths (those variable names end in _PATH).
