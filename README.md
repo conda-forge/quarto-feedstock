@@ -67,6 +67,7 @@ Current release info
 
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-python--quarto-green.svg)](https://anaconda.org/conda-forge/python-quarto) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/python-quarto.svg)](https://anaconda.org/conda-forge/python-quarto) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/python-quarto.svg)](https://anaconda.org/conda-forge/python-quarto) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/python-quarto.svg)](https://anaconda.org/conda-forge/python-quarto) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-quarto-green.svg)](https://anaconda.org/conda-forge/quarto) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/quarto.svg)](https://anaconda.org/conda-forge/quarto) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/quarto.svg)](https://anaconda.org/conda-forge/quarto) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/quarto.svg)](https://anaconda.org/conda-forge/quarto) |
 
 Installing quarto
@@ -79,41 +80,41 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `quarto` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `python-quarto, quarto` can be installed with `conda`:
 
 ```
-conda install quarto
-```
-
-or with `mamba`:
-
-```
-mamba install quarto
-```
-
-It is possible to list all of the versions of `quarto` available on your platform with `conda`:
-
-```
-conda search quarto --channel conda-forge
+conda install python-quarto quarto
 ```
 
 or with `mamba`:
 
 ```
-mamba search quarto --channel conda-forge
+mamba install python-quarto quarto
+```
+
+It is possible to list all of the versions of `python-quarto` available on your platform with `conda`:
+
+```
+conda search python-quarto --channel conda-forge
+```
+
+or with `mamba`:
+
+```
+mamba search python-quarto --channel conda-forge
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search quarto --channel conda-forge
+mamba repoquery search python-quarto --channel conda-forge
 
-# List packages depending on `quarto`:
-mamba repoquery whoneeds quarto --channel conda-forge
+# List packages depending on `python-quarto`:
+mamba repoquery whoneeds python-quarto --channel conda-forge
 
-# List dependencies of `quarto`:
-mamba repoquery depends quarto --channel conda-forge
+# List dependencies of `python-quarto`:
+mamba repoquery depends python-quarto --channel conda-forge
 ```
 
 
