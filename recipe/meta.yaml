@@ -58,7 +58,7 @@ outputs:
         - python >=3
         - r-base >=4
 
-  - name: python-quarto
+  - name: quarto-python
     requirements:
       host:
         - python
