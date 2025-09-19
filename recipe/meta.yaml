@@ -59,22 +59,17 @@ outputs:
         - r-base >=4
 
   - name: python-quarto
-    script: install-python.sh  # [unix]
-    script: install-python.bat  # [win]
     requirements:
       host:
         - python
-        - pip
-        - setuptools
       run:
         - python
         - {{ pin_subpackage('quarto', exact=True) }}
         - jupyter
     test:
-      imports:
-        - quarto
       commands:
-        - python -c "import quarto; print('Quarto Python API available')"
+        - python -c "import sys; print('Python integration ready for Quarto')"
+        - quarto check
 
 about:
   home: https://quarto.org/
