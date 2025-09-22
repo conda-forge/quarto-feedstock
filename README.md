@@ -80,10 +80,10 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `python-quarto, quarto` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `quarto` and `python-quarto` can be installed with `conda`:
 
 ```
-conda install python-quarto quarto
+conda install quarto python-quarto
 ```
 
 or with `mamba`:
@@ -92,15 +92,17 @@ or with `mamba`:
 mamba install python-quarto quarto
 ```
 
-It is possible to list all of the versions of `python-quarto` available on your platform with `conda`:
+It is possible to list all of the versions of `quarto` and `python-quarto` available on your platform with `conda`:
 
 ```
+conda search quarto --channel conda-forge
 conda search python-quarto --channel conda-forge
 ```
 
 or with `mamba`:
 
 ```
+mamba search quarto --channel conda-forge
 mamba search python-quarto --channel conda-forge
 ```
 
@@ -108,12 +110,15 @@ Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
+mamba repoquery search quarto --channel conda-forge
 mamba repoquery search python-quarto --channel conda-forge
 
-# List packages depending on `python-quarto`:
+# List packages depending on `quarto` and `python-quarto`:
+mamba repoquery whoneeds quarto --channel conda-forge
 mamba repoquery whoneeds python-quarto --channel conda-forge
 
-# List dependencies of `python-quarto`:
+# List dependencies of `quarto` and `python-quarto`:
+mamba repoquery depends quarto --channel conda-forge
 mamba repoquery depends python-quarto --channel conda-forge
 ```
 
