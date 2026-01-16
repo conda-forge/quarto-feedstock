@@ -2,9 +2,7 @@ channel_sources:
 - conda-forge
 channel_targets:
 - conda-forge main
-docker_image:
-- quay.io/condaforge/linux-anvil-x86_64:alma9
 nodejs:
-- '20'
+- '24'
 target_platform:
-- linux-64
+- win-64
