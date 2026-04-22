@@ -33,6 +33,10 @@ requirements:
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
     - nodejs
   host:
+    # deno and deno-dom are duplicated from build: so pin_compatible() in run:
+    # can resolve their versions. conda-build only looks at host for that.
+    - deno      {{ deno_version.group(1) if deno_version else "" }}
+    - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     # typst-gather (built during configure.sh) transitively depends on the
     # openssl-sys crate via typst-kit. On Linux it needs the openssl dev
     # headers/libs; macOS uses SecureTransport and Windows uses Schannel.
