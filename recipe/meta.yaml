@@ -15,7 +15,6 @@ source:
   sha256: {{ sha256 }}
   patches:
     - patches/0001-win-conda-path-overrides.patch  # [win]
-    - patches/0001-remove-QUARTO_VERSION-from-configuration.patch
 
 build:
   number: {{ build_number }}

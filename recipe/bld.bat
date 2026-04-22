@@ -9,11 +9,10 @@ SET QUARTO_TYPST=%LIBRARY_BIN%\typst.exe
 
 :: Alter the configuration file with a dynamic value containing the full
 :: package version (e.g. 1.3.340). The only thing allowed in this file is
-:: export statements with static assignments, so we use a combination of a
-:: patch to update the source code to remove the original assignment and a
-:: build-time update to place the dynamic build-time PKG_VERSION as a static
-:: value.
+:: export statements with static assignments, so we strip the upstream
+:: assignment and append a new one using the build-time PKG_VERSION.
 :: More context: https://github.com/conda-forge/quarto-feedstock/pull/7
+pwsh -Command "(Get-Content configuration) -notmatch '^export QUARTO_VERSION=' | Set-Content configuration"
 echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 
 :: TODO: These should be set here, and they should override values in
