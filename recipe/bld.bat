@@ -31,6 +31,12 @@ echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 @REM SET QUARTO_DIST_PATH=%LIBRARY_PREFIX%
 @REM SET QUARTO_SHARE_PATH=%LIBRARY_PREFIX%\share\quarto
 
+:: conda-forge's Rust toolchain sets CARGO_BUILD_TARGET to the host triple,
+:: so `cargo build` writes to target\<triple>\release\ instead of the default
+:: target\release\. Upstream configure.cmd hardcodes the default path for the
+:: COPY after cargo build. Patch it in-place.
+pwsh -Command "(Get-Content configure.cmd) -replace 'package\\typst-gather\\target\\release', 'package\typst-gather\target\%CARGO_BUILD_TARGET%\release' | Set-Content configure.cmd"
+
 call configure.cmd
 :: this shouldn't be strictly necessary, since configure.cmd should theoretically set it, but the builds don't
 :: seem to be picking this up. Leaving this in as a hack for now.

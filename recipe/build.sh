@@ -38,6 +38,12 @@ source configuration
 
 source package/src/set_package_paths.sh
 
+# conda-forge's Rust toolchain sets CARGO_BUILD_TARGET to the host triple,
+# so `cargo build` writes to target/<triple>/release/ instead of the default
+# target/release/. Upstream configure.sh line 108-109 hardcodes the default
+# path. Patch it in-place so the cp after `cargo build` finds the binary.
+sed -i "s|package/typst-gather/target/release|package/typst-gather/target/${CARGO_BUILD_TARGET}/release|" configure.sh
+
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
 bash package/src/quarto-bld make-installer-dir
