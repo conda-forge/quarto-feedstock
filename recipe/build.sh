@@ -9,6 +9,13 @@ if [[ "$CONDA_BUILD_CROSS_COMPILATION" = "1" ]]; then
     mkdir -p $PREFIX/share/quarto
 fi
 
+# The typst-gather Rust build pulls in openssl-sys (via typst-kit) on Linux.
+# Point it at the conda-provided openssl in the host prefix so the openssl
+# crate's build.rs doesn't fall back to pkg-config / system discovery.
+if [[ "${target_platform}" == linux-* ]]; then
+    export OPENSSL_DIR=$PREFIX
+fi
+
 export QUARTO_VENDOR_BINARIES=false
 export QUARTO_NO_SYMLINK=1
 export QUARTO_DENO=$NATIVE_PREFIX/bin/deno
