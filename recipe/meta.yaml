@@ -21,6 +21,11 @@ build:
 
 requirements:
   build:
+    # Rust (+ C toolchain) is required at build time to compile the
+    # package/typst-gather/ binary that Quarto's configure.sh invokes since 1.9.
+    - {{ compiler('c') }}
+    - {{ stdlib('c') }}
+    - {{ compiler('rust') }}
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     - esbuild
