@@ -47,6 +47,14 @@ call configure.cmd
 :: seem to be picking this up. Leaving this in as a hack for now.
 set QUARTO_VERSION=%PKG_VERSION%
 
+:: prepare-dist.ts (package\src\common\prepare-dist.ts) hardcodes
+:: package/typst-gather/target/release/typst-gather.exe. cargo wrote to
+:: target\<triple>\release\, so replicate the binary to the non-triple path.
+if exist "package\typst-gather\target\%CARGO_BUILD_TARGET%\release\typst-gather.exe" (
+    if not exist "package\typst-gather\target\release" mkdir "package\typst-gather\target\release"
+    copy /y "package\typst-gather\target\%CARGO_BUILD_TARGET%\release\typst-gather.exe" "package\typst-gather\target\release\typst-gather.exe"
+)
+
 call package\src\quarto-bld.cmd prepare-dist
 call package\src\quarto-bld.cmd make-installer-dir
 

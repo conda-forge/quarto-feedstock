@@ -50,6 +50,17 @@ sed -i "s|package/typst-gather/target/release|package/typst-gather/target/${CARG
 mkdir -p "$QUARTO_BIN_PATH/tools/x86_64" "$QUARTO_BIN_PATH/tools/aarch64"
 
 bash configure.sh
+
+# prepare-dist.ts (package/src/common/prepare-dist.ts, line 111) also hardcodes
+# package/typst-gather/target/release/typst-gather — a second reference to the
+# non-triple path. cargo wrote to target/<triple>/release/, so replicate the
+# binary to the non-triple location for prepare-dist to find it.
+if [[ -f "package/typst-gather/target/${CARGO_BUILD_TARGET}/release/typst-gather" ]]; then
+    mkdir -p package/typst-gather/target/release
+    cp "package/typst-gather/target/${CARGO_BUILD_TARGET}/release/typst-gather" \
+       package/typst-gather/target/release/typst-gather
+fi
+
 bash package/src/quarto-bld prepare-dist
 bash package/src/quarto-bld make-installer-dir
 
