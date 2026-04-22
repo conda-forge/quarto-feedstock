@@ -1,9 +1,10 @@
 set -ex
 
-export NATIVE_PREFIX=$PREFIX
+# With {{ compiler('c') }} / {{ compiler('rust') }} in build:, conda-build
+# always uses dual-prefix mode, so build-time tools (deno, pandoc, etc.)
+# live in $BUILD_PREFIX. This holds for both native and cross builds.
+export NATIVE_PREFIX=$BUILD_PREFIX
 if [[ "$CONDA_BUILD_CROSS_COMPILATION" = "1" ]]; then
-    # We are cross-compiling, so we need to use the build prefix
-    export NATIVE_PREFIX=$BUILD_PREFIX
     mkdir -p $PREFIX/bin
     mkdir -p $PREFIX/share/quarto
 fi

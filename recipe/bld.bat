@@ -1,11 +1,14 @@
 SET QUARTO_VENDOR_BINARIES=false
 SET QUARTO_NO_SYMLINK=1
-SET QUARTO_DENO=%LIBRARY_BIN%\deno.exe
-SET DENO_BIN_PATH=%LIBRARY_BIN%\deno.exe
-SET QUARTO_PANDOC=%LIBRARY_BIN%\pandoc.exe
-SET QUARTO_ESBUILD=%LIBRARY_BIN%\esbuild.exe
-SET QUARTO_DART_SASS=%LIBRARY_BIN%\sass.exe
-SET QUARTO_TYPST=%LIBRARY_BIN%\typst.exe
+:: With {{ compiler('c') }} / {{ compiler('rust') }} in build:, conda-build
+:: uses dual-prefix mode, so build-time tools live in %BUILD_PREFIX%\Library,
+:: not %PREFIX%\Library (which %LIBRARY_BIN% resolves to).
+SET QUARTO_DENO=%BUILD_PREFIX%\Library\bin\deno.exe
+SET DENO_BIN_PATH=%BUILD_PREFIX%\Library\bin\deno.exe
+SET QUARTO_PANDOC=%BUILD_PREFIX%\Library\bin\pandoc.exe
+SET QUARTO_ESBUILD=%BUILD_PREFIX%\Library\bin\esbuild.exe
+SET QUARTO_DART_SASS=%BUILD_PREFIX%\Library\bin\sass.exe
+SET QUARTO_TYPST=%BUILD_PREFIX%\Library\bin\typst.exe
 
 :: Alter the configuration file with a dynamic value containing the full
 :: package version (e.g. 1.3.340). The only thing allowed in this file is
