@@ -1,5 +1,12 @@
 SET QUARTO_VENDOR_BINARIES=false
 SET QUARTO_NO_SYMLINK=1
+
+:: Rust on Windows defaults to statically linking ucrt, but conda-forge MSVC
+:: libraries are dynamically linked to ucrt.dll. Without this flag the
+:: typst-gather Rust build can fail to link against conda-provided C libs.
+:: Context: https://github.com/conda-forge/deno-feedstock/pull/196#issuecomment-4273043821
+SET RUSTFLAGS=-C target-feature=-crt-static
+
 :: With {{ compiler('c') }} / {{ compiler('rust') }} in build:, conda-build
 :: uses dual-prefix mode, so build-time tools live in %BUILD_PREFIX%\Library,
 :: not %PREFIX%\Library (which %LIBRARY_BIN% resolves to).
