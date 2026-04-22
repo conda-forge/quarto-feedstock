@@ -44,6 +44,11 @@ source package/src/set_package_paths.sh
 # path. Patch it in-place so the cp after `cargo build` finds the binary.
 sed -i "s|package/typst-gather/target/release|package/typst-gather/target/${CARGO_BUILD_TARGET}/release|" configure.sh
 
+# configure.sh's cp destination (tools/<arch>/) is only created by upstream
+# inside the vendored-binaries branch we disable with QUARTO_VENDOR_BINARIES=false.
+# Pre-create both common arches so the cp succeeds regardless of host arch.
+mkdir -p "$QUARTO_BIN_PATH/tools/x86_64" "$QUARTO_BIN_PATH/tools/aarch64"
+
 bash configure.sh
 bash package/src/quarto-bld prepare-dist
 bash package/src/quarto-bld make-installer-dir

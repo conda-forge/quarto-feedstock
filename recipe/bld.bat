@@ -37,6 +37,11 @@ echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 :: COPY after cargo build. Patch it in-place.
 pwsh -Command "(Get-Content configure.cmd) -replace 'package\\typst-gather\\target\\release', 'package\typst-gather\target\%CARGO_BUILD_TARGET%\release' | Set-Content configure.cmd"
 
+:: configure.cmd's COPY destination (tools\x86_64\) is only created inside the
+:: vendored-binaries branch we disable with QUARTO_VENDOR_BINARIES=false.
+:: Pre-create it so the COPY succeeds.
+if not exist "%LIBRARY_BIN%\tools\x86_64" mkdir "%LIBRARY_BIN%\tools\x86_64"
+
 call configure.cmd
 :: this shouldn't be strictly necessary, since configure.cmd should theoretically set it, but the builds don't
 :: seem to be picking this up. Leaving this in as a hack for now.
