@@ -32,7 +32,8 @@ export QUARTO_DIST_PATH=$PREFIX
 # export statements with static assignments, so we strip the upstream
 # assignment and append a new one using the build-time PKG_VERSION.
 # More context: https://github.com/conda-forge/quarto-feedstock/pull/7
-sed -i '/^export QUARTO_VERSION=/d' configuration
+# NB: `sed -i.bak` is the portable form — BSD sed (macOS) rejects bare `-i`.
+sed -i.bak '/^export QUARTO_VERSION=/d' configuration && rm -f configuration.bak
 echo "export QUARTO_VERSION=${PKG_VERSION}" >> configuration
 source configuration
 
@@ -42,7 +43,7 @@ source package/src/set_package_paths.sh
 # so `cargo build` writes to target/<triple>/release/ instead of the default
 # target/release/. Upstream configure.sh line 108-109 hardcodes the default
 # path. Patch it in-place so the cp after `cargo build` finds the binary.
-sed -i "s|package/typst-gather/target/release|package/typst-gather/target/${CARGO_BUILD_TARGET}/release|" configure.sh
+sed -i.bak "s|package/typst-gather/target/release|package/typst-gather/target/${CARGO_BUILD_TARGET}/release|" configure.sh && rm -f configure.sh.bak
 
 # configure.sh's cp destination (tools/<arch>/) is only created by upstream
 # inside the vendored-binaries branch we disable with QUARTO_VENDOR_BINARIES=false.
