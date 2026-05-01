@@ -132,6 +132,8 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.sh
 
 :: Remove symlink that breaks Pixi on Windows.
+:: This is a temporary workaround.
+:: TODO: Remove this code once the issue below is resolved:
 :: https://github.com/conda-forge/quarto-feedstock/issues/97
 if exist "%LIBRARY_PREFIX%\share\quarto\extension-subtrees\julia-engine\CLAUDE.md" (
     del /f /q "%LIBRARY_PREFIX%\share\quarto\extension-subtrees\julia-engine\CLAUDE.md"
