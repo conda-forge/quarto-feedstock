@@ -15,10 +15,10 @@ channel_sources:
 channel_targets:
 - conda-forge main
 macos_machine:
-- x86_64-apple-darwin13.4.0
+- arm64-apple-darwin20.0.0
 nodejs:
-- '22'
+- '26'
 rust_compiler:
 - rust
 target_platform:
-- osx-64
+- osx-arm64
