@@ -1,21 +1,16 @@
 SET QUARTO_VENDOR_BINARIES=false
 SET QUARTO_NO_SYMLINK=1
 
-:: Rust on Windows defaults to statically linking ucrt, but conda-forge MSVC
-:: libraries are dynamically linked to ucrt.dll. Without this flag the
-:: typst-gather Rust build can fail to link against conda-provided C libs.
-:: Context: https://github.com/conda-forge/deno-feedstock/pull/196#issuecomment-4273043821
-SET RUSTFLAGS=-C target-feature=-crt-static
-
-:: With {{ compiler('c') }} / {{ compiler('rust') }} in build:, conda-build
-:: uses dual-prefix mode, so build-time tools live in %BUILD_PREFIX%\Library,
-:: not %PREFIX%\Library (which %LIBRARY_BIN% resolves to).
+:: With {{ compiler('c') }} in build:, conda-build uses dual-prefix mode, so
+:: build-time tools live in %BUILD_PREFIX%\Library, not %PREFIX%\Library
+:: (which %LIBRARY_BIN% resolves to).
 SET QUARTO_DENO=%BUILD_PREFIX%\Library\bin\deno.exe
 SET DENO_BIN_PATH=%BUILD_PREFIX%\Library\bin\deno.exe
 SET QUARTO_PANDOC=%BUILD_PREFIX%\Library\bin\pandoc.exe
 SET QUARTO_ESBUILD=%BUILD_PREFIX%\Library\bin\esbuild.exe
 SET QUARTO_DART_SASS=%BUILD_PREFIX%\Library\bin\sass.exe
 SET QUARTO_TYPST=%BUILD_PREFIX%\Library\bin\typst.exe
+SET QUARTO_TYPST_GATHER=%BUILD_PREFIX%\Library\bin\typst-gather.exe
 
 :: Alter the configuration file with a dynamic value containing the full
 :: package version (e.g. 1.3.340). The only thing allowed in this file is
@@ -31,29 +26,10 @@ echo set "QUARTO_VERSION=%PKG_VERSION%" >> configuration
 @REM SET QUARTO_DIST_PATH=%LIBRARY_PREFIX%
 @REM SET QUARTO_SHARE_PATH=%LIBRARY_PREFIX%\share\quarto
 
-:: conda-forge's Rust toolchain sets CARGO_BUILD_TARGET to the host triple,
-:: so `cargo build` writes to target\<triple>\release\ instead of the default
-:: target\release\. Upstream configure.cmd hardcodes the default path for the
-:: COPY after cargo build. Patch it in-place.
-pwsh -Command "(Get-Content configure.cmd) -replace 'package\\typst-gather\\target\\release', 'package\typst-gather\target\%CARGO_BUILD_TARGET%\release' | Set-Content configure.cmd"
-
-:: configure.cmd's COPY destination (tools\x86_64\) is only created inside the
-:: vendored-binaries branch we disable with QUARTO_VENDOR_BINARIES=false.
-:: Pre-create it so the COPY succeeds.
-if not exist "%LIBRARY_BIN%\tools\x86_64" mkdir "%LIBRARY_BIN%\tools\x86_64"
-
 call configure.cmd
 :: this shouldn't be strictly necessary, since configure.cmd should theoretically set it, but the builds don't
 :: seem to be picking this up. Leaving this in as a hack for now.
 set QUARTO_VERSION=%PKG_VERSION%
-
-:: prepare-dist.ts (package\src\common\prepare-dist.ts) hardcodes
-:: package/typst-gather/target/release/typst-gather.exe. cargo wrote to
-:: target\<triple>\release\, so replicate the binary to the non-triple path.
-if exist "package\typst-gather\target\%CARGO_BUILD_TARGET%\release\typst-gather.exe" (
-    if not exist "package\typst-gather\target\release" mkdir "package\typst-gather\target\release"
-    copy /y "package\typst-gather\target\%CARGO_BUILD_TARGET%\release\typst-gather.exe" "package\typst-gather\target\release\typst-gather.exe"
-)
 
 call package\src\quarto-bld.cmd prepare-dist
 call package\src\quarto-bld.cmd make-installer-dir
@@ -71,6 +47,7 @@ MKDIR %PREFIX%\etc\conda\activate.d
   echo SET "QUARTO_ESBUILD=%LIBRARY_BIN:\=/%\esbuild.exe"
   echo SET "QUARTO_DART_SASS=%LIBRARY_BIN:\=/%\sass.exe"
   echo SET "QUARTO_TYPST=%LIBRARY_BIN:\=/%\typst.exe"
+  echo SET "QUARTO_TYPST_GATHER=%LIBRARY_BIN:\=/%\typst-gather.exe"
   echo SET "QUARTO_SHARE_PATH=%LIBRARY_PREFIX:\=/%\share\quarto"
   echo SET "QUARTO_CONDA_PREFIX=%LIBRARY_PREFIX:\=/%"
 ) > %PREFIX%\etc\conda\activate.d\quarto.bat
@@ -82,6 +59,7 @@ MKDIR %PREFIX%\etc\conda\activate.d
   echo $env:QUARTO_ESBUILD="%LIBRARY_BIN:\=/%\esbuild.exe"
   echo $env:QUARTO_DART_SASS="%LIBRARY_BIN:\=/%\sass.exe"
   echo $env:QUARTO_TYPST="%PREFIX:\=/%\bin\typst.exe"
+  echo $env:QUARTO_TYPST_GATHER="%LIBRARY_BIN:\=/%\typst-gather.exe"
   echo $env:QUARTO_SHARE_PATH="%LIBRARY_PREFIX:\=/%\share\quarto"
   echo $env:QUARTO_CONDA_PREFIX="%LIBRARY_PREFIX:\=/%"
 ) > %PREFIX%\etc\conda\activate.d\quarto.ps1
@@ -93,6 +71,7 @@ MKDIR %PREFIX%\etc\conda\activate.d
   echo export QUARTO_ESBUILD="%LIBRARY_BIN:\=/%\esbuild.exe"
   echo export QUARTO_DART_SASS="%LIBRARY_BIN:\=/%\sass.exe"
   echo export QUARTO_TYPST="%PREFIX:\=/%\bin\typst.exe"
+  echo export QUARTO_TYPST_GATHER="%LIBRARY_BIN:\=/%\typst-gather.exe"
   echo export QUARTO_SHARE_PATH="%LIBRARY_PREFIX:\=/%\share\quarto"
   echo export QUARTO_CONDA_PREFIX="%LIBRARY_PREFIX:\=/%"
 ) > %PREFIX%\etc\conda\activate.d\quarto.sh
@@ -105,6 +84,7 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
   echo SET QUARTO_ESBUILD=
   echo SET QUARTO_DART_SASS=
   echo SET QUARTO_TYPST=
+  echo SET QUARTO_TYPST_GATHER=
   echo SET QUARTO_SHARE_PATH=
   echo SET QUARTO_CONDA_PREFIX=
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.bat
@@ -116,6 +96,7 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
   echo Remove-Item -Path Env:\QUARTO_ESBUILD
   echo Remove-Item -Path Env:\QUARTO_DART_SASS
   echo Remove-Item -Path Env:\QUARTO_TYPST
+  echo Remove-Item -Path Env:\QUARTO_TYPST_GATHER
   echo Remove-Item -Path Env:\QUARTO_SHARE_PATH
   echo Remove-Item -Path Env:\QUARTO_CONDA_PREFIX
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.ps1
@@ -127,6 +108,7 @@ MKDIR %PREFIX%\etc\conda\deactivate.d
   echo unset QUARTO_ESBUILD
   echo unset QUARTO_DART_SASS
   echo unset QUARTO_TYPST
+  echo unset QUARTO_TYPST_GATHER
   echo unset QUARTO_SHARE_PATH
   echo unset QUARTO_CONDA_PREFIX
 ) > %PREFIX%\etc\conda\deactivate.d\quarto.sh

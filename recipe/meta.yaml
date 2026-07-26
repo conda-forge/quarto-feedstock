@@ -5,6 +5,7 @@
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
 {% set typst_version = load_file_regex(load_file='configuration', regex_pattern='export TYPST=(\S+)') %}
+{% set typst_gather_version = load_file_regex(load_file='configuration', regex_pattern='export TYPST_GATHER=(\S+)') %}
 
 package:
   name: quarto
@@ -21,26 +22,25 @@ build:
 
 requirements:
   build:
-    # Rust (+ C toolchain) is required at build time to compile the
-    # package/typst-gather/ binary that Quarto's configure.sh invokes since 1.9.
+    # The C toolchain is not used to compile anything, but its presence is what
+    # puts conda-build in dual-prefix mode, so the build-time tools below land
+    # in $BUILD_PREFIX. build.sh/bld.bat rely on that to find them.
     - {{ compiler('c') }}
     - {{ stdlib('c') }}
-    - {{ compiler('rust') }}
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
     - esbuild
     - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
+    # prepare-dist configures typst-gather by looking it up on PATH when
+    # QUARTO_VENDOR_BINARIES=false, so it has to be present at build time too.
+    - typst-gather {{ "==" ~ typst_gather_version.group(1) if typst_gather_version else "" }}
     - nodejs
   host:
     # deno and deno-dom are duplicated from build: so pin_compatible() in run:
     # can resolve their versions. conda-build only looks at host for that.
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
-    # typst-gather (built during configure.sh) transitively depends on the
-    # openssl-sys crate via typst-kit. On Linux it needs the openssl dev
-    # headers/libs; macOS uses SecureTransport and Windows uses Schannel.
-    - openssl  # [linux]
   run:
     # Deno, deno-dom and pandoc have proven to be fickle
     #    regarding Quarto's source code. The pinning here
@@ -53,9 +53,13 @@ requirements:
     - {{ pin_compatible("deno-dom", max_pin="x.x.x") }}
     - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
+    # Since 1.10 typst-gather is a separate upstream project rather than a
+    # crate inside the Quarto tree. Quarto shells out to it to work out which
+    # Typst packages a document needs, and falls back to staging all of them
+    # (with a warning on every render) when it is missing.
+    - typst-gather {{ "==" ~ typst_gather_version.group(1) if typst_gather_version else "" }}
     - esbuild
     - dart-sass
-    - openssl  # [linux]
 
 test:
   commands:
