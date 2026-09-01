@@ -62,10 +62,14 @@ requirements:
 
 test:
   commands:
-    - quarto check
-    - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix]
+    # Deno's aarch64 binary uses instructions unsupported by the QEMU runner
+    # used for cross-compiled package tests. The package is still installed and
+    # its filesystem layout checked under emulation.
+    - quarto check  # [not aarch64]
+    - "[ \"$(quarto --version)\" = \"{{ version }}\" ] || (echo \"Version set incorrectly\" && exit 1)"  # [unix and not aarch64]
     # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
-    - quarto render hello.qmd --to html
+    - quarto render hello.qmd --to html  # [not aarch64]
+    - test -x "${PREFIX}/bin/quarto"  # [aarch64]
     - test -e "${QUARTO_SHARE_PATH}/preview/quarto-preview.js"  # [unix]
   files:
     - hello.qmd
