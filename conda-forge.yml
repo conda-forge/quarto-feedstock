@@ -1,9 +1,7 @@
 bot:
   version_updates:
     sources:
-    - githubreleases
-build_platform:
-  osx_arm64: osx_64
+      - githubreleases
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
@@ -12,4 +10,5 @@ github:
   tooling_branch_name: main
 provider:
   linux_aarch64: default
+  osx_arm64: default
 test: native_and_emulated
