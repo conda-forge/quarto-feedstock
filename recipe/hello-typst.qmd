@@ -1,0 +1,6 @@
+---
+title: "Hello Typst"
+format: typst
+---
+
+Hello, Typst!

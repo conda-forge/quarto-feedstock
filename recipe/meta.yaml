@@ -34,7 +34,7 @@ requirements:
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
     # prepare-dist configures typst-gather by looking it up on PATH when
     # QUARTO_VENDOR_BINARIES=false, so it has to be present at build time too.
-    - typst-gather {{ "==" ~ typst_gather_version.group(1) if typst_gather_version else "" }}
+    - typst-gather {{ ">=" ~ typst_gather_version.group(1) ~ ",<0.3" if typst_gather_version else "" }}
     - nodejs
   host:
     # deno and deno-dom are duplicated from build: so pin_compatible() in run:
@@ -57,7 +57,12 @@ requirements:
     # crate inside the Quarto tree. Quarto shells out to it to work out which
     # Typst packages a document needs, and falls back to staging all of them
     # (with a warning on every render) when it is missing.
-    - typst-gather {{ "==" ~ typst_gather_version.group(1) if typst_gather_version else "" }}
+    # The pin is a range, not the usual ==, because Quarto 1.10.x's
+    # configuration freezes TYPST_GATHER at 0.2.3 while the conda package is
+    # 0.2.4 (license-only release, see conda-forge/staged-recipes#35412).
+    # The <0.3 upper bound is hand-maintained and should fail loudly the day
+    # Quarto moves to typst-gather 0.3.x.
+    - typst-gather {{ ">=" ~ typst_gather_version.group(1) ~ ",<0.3" if typst_gather_version else "" }}
     - esbuild
     - dart-sass
 
@@ -68,8 +73,20 @@ test:
     # it would be nice to do a version check on windows too, but I don't have a win machine and don't want to debug on CI
     - quarto render hello.qmd --to html
     - test -e "${QUARTO_SHARE_PATH}/preview/quarto-preview.js"  # [unix]
+    # QUARTO_TYPST_GATHER is wired by the activate script; a dangling path
+    # here means the wiring is broken even if every render test passes.
+    - test -f "${QUARTO_TYPST_GATHER}"  # [unix]
+    - if not exist "%QUARTO_TYPST_GATHER%" exit 1  # [win]
+    # quarto runs typst-gather analyze on every typst render, but a failure
+    # only warns and falls back to staging all packages, exiting 0. So the
+    # render alone stays green on a broken typst-gather; grep stderr for the
+    # fallback warning.
+    - quarto render hello-typst.qmd --to typst 2> typst-render.log
+    - "! grep -q 'typst-gather analyze failed' typst-render.log"  # [unix]
+    - "findstr /C:\"typst-gather analyze failed\" typst-render.log && exit 1 || exit 0"  # [win]
   files:
     - hello.qmd
+    - hello-typst.qmd
   requires:
     - jupyter
     - python >=3
