@@ -82,7 +82,9 @@ test:
     # render alone stays green on a broken typst-gather; grep stderr for the
     # fallback warning.
     - quarto render hello-typst.qmd --to typst 2> typst-render.log
-    - "! grep -q 'typst-gather analyze failed' typst-render.log"  # [unix]
+    # `! grep -q` would not work here: bash exempts negated commands from
+    # errexit, so a match would not fail the test run. Exit explicitly.
+    - "if grep -q 'typst-gather analyze failed' typst-render.log; then cat typst-render.log; exit 1; fi"  # [unix]
     - "findstr /C:\"typst-gather analyze failed\" typst-render.log && exit 1 || exit 0"  # [win]
   files:
     - hello.qmd
