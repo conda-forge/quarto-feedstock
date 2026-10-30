@@ -1,6 +1,6 @@
-{% set version = "1.10.19" %}
-{% set sha256 = "f2a62b234e0b12cac6f999f44e67fbbee52f0714c3bd4866bcc32bf8b8f09ea9" %}
-{% set build_number = 1 %}
+{% set version = "1.10.20" %}
+{% set sha256 = "d129a5dc821f9b15742dddadaf6b3ba7a3a932ceeb4dc0d2120507a8c558c34e" %}
+{% set build_number = 0 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
