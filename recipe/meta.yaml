@@ -1,9 +1,11 @@
 {% set version = "1.10.19" %}
 {% set sha256 = "f2a62b234e0b12cac6f999f44e67fbbee52f0714c3bd4866bcc32bf8b8f09ea9" %}
-{% set build_number = 0 %}
+{% set build_number = 1 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
 {% set pandoc_version = load_file_regex(load_file='configuration', regex_pattern='export PANDOC=(\S+)') %}
+{% set dartsass_version = load_file_regex(load_file='configuration', regex_pattern='export DARTSASS=(\S+)') %}
+{% set esbuild_version = load_file_regex(load_file='configuration', regex_pattern='export ESBUILD=(\S+)') %}
 {% set typst_version = load_file_regex(load_file='configuration', regex_pattern='export TYPST=(\S+)') %}
 {% set typst_gather_version = load_file_regex(load_file='configuration', regex_pattern='export TYPST_GATHER=(\S+)') %}
 
@@ -29,7 +31,10 @@ requirements:
     - {{ stdlib('c') }}
     - deno      {{ deno_version.group(1) if deno_version else "" }}
     - deno-dom  {{ deno_dom_version.group(1) if deno_dom_version else "" }}
-    - esbuild
+    # bld.bat wires QUARTO_DART_SASS to a sass.exe in BUILD_PREFIX at build
+    # time, so dart-sass has to be a build dependency too.
+    - dart-sass {{ "==" ~ dartsass_version.group(1) if dartsass_version else "" }}
+    - esbuild {{ "==" ~ esbuild_version.group(1) if esbuild_version else "" }}
     - pandoc {{ "==" ~ pandoc_version.group(1) if pandoc_version else "" }}
     - typst {{ "==" ~ typst_version.group(1) if typst_version else "" }}
     # prepare-dist configures typst-gather by looking it up on PATH when
@@ -63,8 +68,11 @@ requirements:
     # The <0.3 upper bound is hand-maintained and should fail loudly the day
     # Quarto moves to typst-gather 0.3.x.
     - typst-gather {{ ">=" ~ typst_gather_version.group(1) ~ ",<0.3" if typst_gather_version else "" }}
-    - esbuild
-    - dart-sass
+    # Quarto's version check strictly compares dart-sass against the DARTSASS
+    # version in its configuration file and warns on every `quarto check`
+    # otherwise. esbuild is pinned from the same file for consistency.
+    - dart-sass {{ "==" ~ dartsass_version.group(1) if dartsass_version else "" }}
+    - esbuild {{ "==" ~ esbuild_version.group(1) if esbuild_version else "" }}
 
 test:
   commands:
