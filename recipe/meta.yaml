@@ -1,5 +1,5 @@
-{% set version = "1.10.20" %}
-{% set sha256 = "d129a5dc821f9b15742dddadaf6b3ba7a3a932ceeb4dc0d2120507a8c558c34e" %}
+{% set version = "1.11.9" %}
+{% set sha256 = "06d469f88f38abf630a43f6ea926a8d3dca00928ae98b6f91e419d0f5c7c2405" %}
 {% set build_number = 0 %}
 {% set deno_version = load_file_regex(load_file='configuration', regex_pattern='export\sDENO=v(\S+)') %}
 {% set deno_dom_version = load_file_regex(load_file='configuration', regex_pattern='export DENO_DOM=v([^-]+)') %}
